@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:08:18 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 11:30:48 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/11 12:58:04 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*create_nullstring(char *tmp, char c);
 char	*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 3
 # endif
 
 #endif

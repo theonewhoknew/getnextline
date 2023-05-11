@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 11:28:23 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/11 13:02:06 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,26 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		ret = read(fd, buf, BUFFER_SIZE);
+		printf("bytes read: %d\n", ret);
 		if (ret > 0)
 			tmp = ft_strjoin(tmp, buf);
 		else if ((ret == 0 && tmp == NULL) || ret == -1)
 			return (NULL);
 		if (ft_strchr(tmp, '\n') != 0)
 		{	
+			printf("entra en newline\n");
 			line = create_string(tmp, '\n');
 			tmp = remove_string(tmp, '\n', ret);
 			return (line);
 		}
 		else if (ft_strchr(tmp, '\0') != 0)
+		{	
+			printf("entra en nullline\n");
 			return (create_nullstring(tmp, '\0'));
+		}
 	}	
 }
-/*
+
 int main(void)
 {   
     char *line;
@@ -90,9 +95,4 @@ int main(void)
 	fd = open("text.txt", O_RDONLY);
 	line = get_next_line(fd);
 	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
 }
-*/
