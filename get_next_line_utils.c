@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 13:33:31 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:24:13 by theonewhokn      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stddef.h>
+#include <stdio.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -33,19 +34,22 @@ size_t	ft_strlcpy(char *dst, const char *src,
 {
 	unsigned int	i;
 	unsigned int	c;
+	unsigned int	j;
 
 	c = 0;
 	i = start;
+	j = 0;
 	while (src[c] != '\0')
 		++c;
 	if (dstsize != 0)
 	{
-		while (src[i] != '\0' && i < (dstsize - 1))
+		while (src[i] != '\0' && j < (dstsize - 1))
 		{
-			dst[i] = src[i];
-			++i;
+			dst[j] = src[i];
+			i++;
+			j++;
 		}
-		dst[i] = '\0';
+		dst[j] = '\0';
 	}
 	return (c);
 }
