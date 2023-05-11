@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 13:02:06 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/11 13:38:29 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,32 +23,33 @@ char	*remove_string(char *tmp, char c, int ret)
 	char	*new_tmp;
 
 	len = 0;
-	len = ft_strchr(tmp, c);
+	len = ft_strchr(tmp, c, ret);
 	new_tmp = (char *)malloc(sizeof (char) * (ret - len + 1));
 	ft_strlcpy(new_tmp, tmp, ret - len + 1, len);
 	free (tmp);
 	return (new_tmp);
 }
 
-char	*create_string(char *tmp, char c)
+char	*create_string(char *tmp, char c, int ret)
 {
 	size_t	len;
 	char	*string;
 
 	len = 0;
-	len = ft_strchr(tmp, c);
+	ret = ft_strlen(tmp);
+	len = ft_strchr(tmp, c, ret);
 	string = (char *)malloc(sizeof (char) * (len + 1));
 	ft_strlcpy(string, tmp, len + 1, 0);
 	return (string);
 }
 
-char	*create_nullstring(char *tmp, char c)
+char	*create_nullstring(char *tmp, char c, int ret)
 {
 	size_t	len;
 	char	*string;
 
 	len = 0;
-	len = ft_strchr(tmp, c);
+	len = ft_strchr(tmp, c, ret);
 	string = (char *)malloc(sizeof (char) * (len));
 	ft_strlcpy(string, tmp, len, 0);
 	free (tmp);
@@ -68,23 +69,31 @@ char	*get_next_line(int fd)
 	{
 		ret = read(fd, buf, BUFFER_SIZE);
 		printf("bytes read: %d\n", ret);
-		if (ret > 0)
-			tmp = ft_strjoin(tmp, buf);
-		else if ((ret == 0 && tmp == NULL) || ret == -1)
+		printf("buf read: %s\n", buf);
+		//if (ret > 0)
+		//	
+		if ((ret == 0 && tmp == NULL) || ret == -1)
 			return (NULL);
-		if (ft_strchr(tmp, '\n') != 0)
-		{	
+		if (ft_strchr(buf, '\n', ret) != 0)
+		{
 			printf("entra en newline\n");
-			line = create_string(tmp, '\n');
+			tmp = ft_strjoin(tmp, buf, ret);
+			printf("tmp buf is: %s\n", tmp);
+			line = create_string(tmp, '\n', ret);
+			printf("new line is: %s\n", line);
 			tmp = remove_string(tmp, '\n', ret);
+			printf("new tmp after line is: %s\n", tmp);
 			return (line);
 		}
-		else if (ft_strchr(tmp, '\0') != 0)
-		{	
-			printf("entra en nullline\n");
-			return (create_nullstring(tmp, '\0'));
+		else if (ft_strchr(buf, '\0', ret) != 0)
+		{
+			printf("entra en nullline\n\n");
+			tmp = ft_strjoin(tmp, buf, ret);
+			return (create_nullstring(tmp, '\0', ret));
 		}
-	}	
+		tmp = ft_strjoin(tmp, buf, ret);
+		printf("tmp buf is: %s\n", tmp);
+	}
 }
 
 int main(void)
