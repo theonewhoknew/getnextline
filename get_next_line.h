@@ -6,7 +6,7 @@
 /*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:08:18 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 17:27:27 by theonewhokn      ###   ########.fr       */
+/*   Updated: 2023/05/11 18:34:33 by theonewhokn      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ size_t	ft_strlcpy(char *dst, const char *src,
 char	*ft_strdup(const char *s1, int ret);
 char	*remove_string(char *tmp, char c, size_t ret);
 char	*create_string(char *tmp, char c, int ret);
-char	*create_nullstring(char *tmp, char c, int ret);
+char	*create_nullstring(char *tmp);
 char	*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 10
 # endif
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 17:24:13 by theonewhokn      ###   ########.fr       */
+/*   Updated: 2023/05/11 17:36:44 by theonewhokn      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ size_t	ft_strlen(const char *s)
 	unsigned int	c;
 
 	c = 0;
+	if (!s)
+		return (-1);
 	while (*s)
 	{
 		c++;
@@ -59,6 +61,8 @@ size_t	ft_strchr(const char *s, int c, int ret)
 	int			n;
 
 	n = 0;
+	if (!s)
+		return (0);
 	while (n < ret)
 	{
 		if (s[n] == (char)c)
