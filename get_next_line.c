@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
+/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 18:59:14 by theonewhokn      ###   ########.fr       */
+/*   Updated: 2023/05/12 08:37:13 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,70 +81,39 @@ char	*get_next_line(int fd)
 
 	while (1)
 	{	
-		ft_memset(buf, 0, ret);
-		//printf("FUNCTION IS CALLED\n");
-		//printf("tmp buf before everything is: %s\n", tmp);
 		if (ft_strchr(tmp, '\n', ft_strlen(tmp)) != 0)
 		{	
-		//	printf("entra en tmp directamente sin leer\n");
 			line = create_string(tmp, '\n', ret);
-		//	printf("new line is: %s\n", line);
 			tmp = remove_string(tmp, '\n', ret);
-		//	printf("new tmp after line is: %s\n", tmp);
 			return (line);
 		}
-		//printf("read buf before %s\n", buf);
 		ret = read(fd, buf, BUFFER_SIZE);
-		//printf("Se leen %d bytes\n", ret);
-		//printf("read buf after %s\n", buf);
 		if ((ret == 0 && ft_strlen(tmp) == 0) || ret == -1)
 			return (NULL);
 		if (ret == 0 && ft_strlen(tmp) > 0)
 		{	
-			//printf("entra porque ya no hay newline, hay algunas letras junto a un null\n");
-			//printf("tmp buf is %s\n", tmp);
 			line = create_nullstring(tmp);
-			//printf("new line is: %s\n", line);
-			//printf("new tmp after line is: %s\n", tmp);
 			return (line);
 		}
 		if (ft_strchr(buf, '\n', ret) != 0)
 		{
-			//printf("entra hay newline en el buffer\n");
 			tmp = ft_strjoin(tmp, buf, ret);
-			//printf("tmp buf is: %s\n", tmp);
 			line = create_string(tmp, '\n', ret);
-			//printf("new line is: %s\n", line);
 			tmp = remove_string(tmp, '\n', ret);
-			//printf("new tmp after line is: %s\n", tmp);
 			return (line);
 		}
 		else
-		{
-			//printf("vuelve a loopear");
 			tmp = ft_strjoin(tmp, buf, ret);
-		}
 	}
 }
-
+/*
 int main(void)
 {   
     char *line;
 	int fd;
 
 	fd = open("text.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
+	while ((line = get_next_line(fd)) != NULL)
+		printf("%s", line);
 }
+*/
