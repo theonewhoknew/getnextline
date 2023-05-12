@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/12 09:38:23 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/12 14:22:15 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *s)
 
 	c = 0;
 	if (!s)
-		return (-1);
+		return (0);
 	while (*s)
 	{
 		c++;
@@ -56,9 +56,9 @@ size_t	ft_strlcpy(char *dst, const char *src,
 	return (c);
 }
 
-size_t	ft_strchr(const char *s, int c, size_t n)
+size_t	ft_strchr(const char *s, int c, int n)
 {	
-	size_t			i;
+	int			i;
 
 	i = 0;
 	if (!s)
@@ -91,22 +91,23 @@ char	*ft_strjoin(char *tmp, char *buf, size_t n)
 
 	i = 0;
 	len = 0;
-	if (tmp == NULL)
+	if (tmp == NULL || tmp == 0)
 		return (ft_strdup(buf, n));
 	len = n + ft_strlen(tmp);
 	join = (char *)malloc(sizeof (char) * (len + 1));
 	if (!join)
 		return (NULL);
 	while (*tmp)
-	{
-		join[i++] = *tmp;
-		tmp++;
-	}
+		join[i++] = *tmp++;
 	while (n)
 	{
-		join[i++] = *buf;
-		buf++;
+		join[i++] = *buf++;
 		n--;
+	}
+	if (tmp != NULL)
+	{
+		printf("se libera tmp\n");
+		free (tmp);
 	}
 	join[i] = '\0';
 	return (join);
