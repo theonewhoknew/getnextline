@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/12 14:19:26 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:08:07 by theonewhokn      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,18 @@ void	*ft_memset(void *b, int c, size_t n)
 	return (b);
 }
 
-char	*remove_string(char *tmp, char c, size_t n)
+char	*remove_string(char *tmp, size_t n, char *buf, size_t bytes)
 {
 	int		len;
 	char	*new_tmp;
 
 	len = 0;
-	len = ft_strchr(tmp, c, ft_strlen(tmp));
+	len = ft_strchr(tmp, '\n', ft_strlen(tmp));
 	new_tmp = (char *)malloc(sizeof (char) * (n - len + 1));
 	ft_strlcpy(new_tmp, tmp, n - len + 1, len);
 	free (tmp);
 	tmp = NULL;
+	new_tmp = ft_strjoin(new_tmp, buf, bytes);
 	return (new_tmp);
 }
 
@@ -58,18 +59,16 @@ char	*create_string(char *tmp, char c, size_t n)
 	return (string);
 }
 
-char	*create_nullstring(char *tmp)
+char	*create_nullstring(char *tmp, char *line)
 {
 	size_t	len;
-	char	*string;
 
 	len = 0;
 	len = ft_strlen(tmp);
-	string = (char *)malloc(sizeof (char) * (len + 1));
-	ft_strlcpy(string, tmp, len + 1, 0);
-	free (tmp);
-	tmp = NULL;
-	return (string);
+	line = (char *)malloc(sizeof (char) * (len + 1));
+	ft_strlcpy(line, tmp, len + 1, 0);
+	ft_memset(tmp, 0, ft_strlen(tmp));
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -79,24 +78,28 @@ char	*get_next_line(int fd)
 	static char		*tmp;
 	char			*line;
 
+	line = NULL;
 	while (1)
 	{	
 		bytes = read(fd, buf, BUFFER_SIZE);
 		if ((bytes == 0 && ft_strlen(tmp) == 0)
 			|| bytes == -1 || (bytes == 0 && tmp == NULL))
+		{
+			free (tmp);
 			return (NULL);
-		if (bytes == 0 && ft_strlen(tmp) > 0)
-			return (create_nullstring(tmp));
+		}
 		if (ft_strchr(tmp, '\n', bytes) != 0)
 		{	
 			line = create_string(tmp, '\n', ft_strlen(tmp));
-			tmp = remove_string(tmp, '\n', ft_strlen(tmp));
+			tmp = remove_string(tmp, '\n', buf, bytes);
 			return (line);
 		}
+		else if (bytes == 0 && ft_strlen(tmp) > 0)
+			return (create_nullstring(tmp, line));
 		tmp = ft_strjoin(tmp, buf, bytes);
 	}
 }
-
+/*
 int main(void)
 {   
     char *line;
@@ -104,5 +107,9 @@ int main(void)
 
 	fd = open("text.txt", O_RDONLY);
 	while ((line = get_next_line(fd)) != NULL)
+	{
 		printf("%s", line);
+		free (line);
+	}
 }
+*/

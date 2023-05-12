@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/12 14:22:15 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:07:50 by theonewhokn      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,13 @@ size_t	ft_strchr(const char *s, int c, int n)
 	return (0);
 }
 
-char	*ft_strdup(const char *s1, size_t n)
+char	*ft_strdup(const char *s1, size_t n, char *tmp)
 {
-	char	*dup;
-
-	dup = (char *)malloc(sizeof (char) * (ft_strlen(s1) + 1));
-	if (!dup)
+	tmp = (char *)malloc(sizeof (char) * (ft_strlen(s1) + 1));
+	if (!tmp)
 		return (NULL);
-	ft_strlcpy(dup, s1, n + 1, 0);
-	return (dup);
+	ft_strlcpy(tmp, s1, n + 1, 0);
+	return (tmp);
 }
 
 char	*ft_strjoin(char *tmp, char *buf, size_t n)
@@ -88,27 +86,26 @@ char	*ft_strjoin(char *tmp, char *buf, size_t n)
 	size_t		len;
 	char		*join;
 	int			i;
+	int			j;
 
+	j = 0;
 	i = 0;
 	len = 0;
 	if (tmp == NULL || tmp == 0)
-		return (ft_strdup(buf, n));
+		return (ft_strdup(buf, n, tmp));
 	len = n + ft_strlen(tmp);
 	join = (char *)malloc(sizeof (char) * (len + 1));
 	if (!join)
 		return (NULL);
-	while (*tmp)
-		join[i++] = *tmp++;
+	while (tmp[j])
+		join[i++] = tmp[j++];
 	while (n)
 	{
 		join[i++] = *buf++;
 		n--;
 	}
-	if (tmp != NULL)
-	{
-		printf("se libera tmp\n");
-		free (tmp);
-	}
+	free (tmp);
+	tmp = NULL;
 	join[i] = '\0';
 	return (join);
 }
