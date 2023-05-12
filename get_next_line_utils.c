@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
+/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 17:36:44 by theonewhokn      ###   ########.fr       */
+/*   Updated: 2023/05/12 09:38:23 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,34 @@ size_t	ft_strlcpy(char *dst, const char *src,
 	return (c);
 }
 
-size_t	ft_strchr(const char *s, int c, int ret)
+size_t	ft_strchr(const char *s, int c, size_t n)
 {	
-	int			n;
+	size_t			i;
 
-	n = 0;
+	i = 0;
 	if (!s)
 		return (0);
-	while (n < ret)
+	while (i < n)
 	{
-		if (s[n] == (char)c)
-			return (n + 1);
-		n++;
+		if (s[i] == (char)c)
+			return (i + 1);
+		i++;
 	}
 	return (0);
 }
 
-char	*ft_strdup(const char *s1, int ret)
+char	*ft_strdup(const char *s1, size_t n)
 {
 	char	*dup;
 
 	dup = (char *)malloc(sizeof (char) * (ft_strlen(s1) + 1));
 	if (!dup)
 		return (NULL);
-	ft_strlcpy(dup, s1, ret + 1, 0);
+	ft_strlcpy(dup, s1, n + 1, 0);
 	return (dup);
 }
 
-char	*ft_strjoin(char *tmp, char *buf, int ret)
+char	*ft_strjoin(char *tmp, char *buf, size_t n)
 {
 	size_t		len;
 	char		*join;
@@ -92,8 +92,8 @@ char	*ft_strjoin(char *tmp, char *buf, int ret)
 	i = 0;
 	len = 0;
 	if (tmp == NULL)
-		return (ft_strdup(buf, ret));
-	len = ret + ft_strlen(tmp);
+		return (ft_strdup(buf, n));
+	len = n + ft_strlen(tmp);
 	join = (char *)malloc(sizeof (char) * (len + 1));
 	if (!join)
 		return (NULL);
@@ -102,11 +102,11 @@ char	*ft_strjoin(char *tmp, char *buf, int ret)
 		join[i++] = *tmp;
 		tmp++;
 	}
-	while (ret)
+	while (n)
 	{
 		join[i++] = *buf;
 		buf++;
-		ret--;
+		n--;
 	}
 	join[i] = '\0';
 	return (join);

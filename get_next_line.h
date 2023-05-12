@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
+/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:08:18 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/11 18:59:26 by theonewhokn      ###   ########.fr       */
+/*   Updated: 2023/05/12 09:38:46 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 # include <stddef.h>
 
 size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char *tmp, char *buf, int ret);
-size_t	ft_strchr(const char *s, int c, int ret);
+char	*ft_strjoin(char *tmp, char *buf, size_t n);
+size_t	ft_strchr(const char *s, int c, size_t n);
 size_t	ft_strlcpy(char *dst, const char *src,
 			size_t dstsize, unsigned int start);
-char	*ft_strdup(const char *s1, int ret);
-char	*remove_string(char *tmp, char c, size_t ret);
-char	*create_string(char *tmp, char c, int ret);
+char	*ft_strdup(const char *s1, size_t n);
+char	*remove_string(char *tmp, char c, size_t n);
+char	*create_string(char *tmp, char c, size_t n);
 char	*create_nullstring(char *tmp);
 char	*get_next_line(int fd);
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1
 # endif
 
 #endif

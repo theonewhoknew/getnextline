@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/12 08:37:13 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:39:08 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,26 @@ void	*ft_memset(void *b, int c, size_t n)
 	return (b);
 }
 
-char	*remove_string(char *tmp, char c, size_t ret)
+char	*remove_string(char *tmp, char c, size_t n)
 {
 	int		len;
 	char	*new_tmp;
 
 	len = 0;
 	len = ft_strchr(tmp, c, ft_strlen(tmp));
-	ret = ft_strlen(tmp);
-	new_tmp = (char *)malloc(sizeof (char) * (ret - len + 1));
-	ft_strlcpy(new_tmp, tmp, ret - len + 1, len);
+	new_tmp = (char *)malloc(sizeof (char) * (n - len + 1));
+	ft_strlcpy(new_tmp, tmp, n - len + 1, len);
 	free (tmp);
 	return (new_tmp);
 }
 
-char	*create_string(char *tmp, char c, int ret)
+char	*create_string(char *tmp, char c, size_t n)
 {
 	size_t	len;
 	char	*string;
 
 	len = 0;
-	ret = ft_strlen(tmp);
-	len = ft_strchr(tmp, c, ret);
+	len = ft_strchr(tmp, c, n);
 	string = (char *)malloc(sizeof (char) * (len + 1));
 	ft_strlcpy(string, tmp, len + 1, 0);
 	return (string);
@@ -74,36 +72,25 @@ char	*create_nullstring(char *tmp)
 
 char	*get_next_line(int fd)
 {	
-	int			ret;
-	char		buf[BUFFER_SIZE];
-	static char	*tmp;
-	char		*line;
+	size_t			bytes;
+	char			buf[BUFFER_SIZE];
+	static char		*tmp;
+	char			*line;
 
 	while (1)
 	{	
-		if (ft_strchr(tmp, '\n', ft_strlen(tmp)) != 0)
-		{	
-			line = create_string(tmp, '\n', ret);
-			tmp = remove_string(tmp, '\n', ret);
-			return (line);
-		}
-		ret = read(fd, buf, BUFFER_SIZE);
-		if ((ret == 0 && ft_strlen(tmp) == 0) || ret == -1)
+		bytes = read(fd, buf, BUFFER_SIZE);
+		if ((bytes == 0 && ft_strlen(tmp) == 0) || bytes == -1)
 			return (NULL);
-		if (ret == 0 && ft_strlen(tmp) > 0)
-		{	
-			line = create_nullstring(tmp);
-			return (line);
-		}
-		if (ft_strchr(buf, '\n', ret) != 0)
+		if (bytes == 0 && ft_strlen(tmp) > 0)
+			return (create_nullstring(tmp));
+		if (ft_strchr(tmp, '\n', bytes) != 0)
 		{
-			tmp = ft_strjoin(tmp, buf, ret);
-			line = create_string(tmp, '\n', ret);
-			tmp = remove_string(tmp, '\n', ret);
+			line = create_string(tmp, '\n', ft_strlen(tmp));
+			tmp = remove_string(tmp, '\n', ft_strlen(tmp));
 			return (line);
 		}
-		else
-			tmp = ft_strjoin(tmp, buf, ret);
+		tmp = ft_strjoin(tmp, buf, bytes);
 	}
 }
 /*
