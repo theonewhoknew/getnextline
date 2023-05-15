@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
+/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/13 09:51:43 by theonewhokn      ###   ########.fr       */
+/*   Updated: 2023/05/15 11:40:10 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,26 @@ void	*ft_memset(void *b, int c, size_t n)
 	return (b);
 }
 
-char	*remove_string(char *tmp, size_t n, char *buf, size_t bytes)
+char	*remove_string(char *tmp)
 {
-	int		len;
-	char	*new_tmp;
+	size_t		len;
+	char		*new_tmp;
+	size_t		n;
 
-	len = 0;
 	len = ft_strchr(tmp, '\n', ft_strlen(tmp));
-	new_tmp = (char *)malloc(sizeof (char) * (n - len + 1));
-	ft_strlcpy(new_tmp, tmp, n - len + 1, len);
+	n = ft_strlen(tmp);
+	if (len == n)
+	{
+		new_tmp = (char *)malloc(sizeof (char) * 1);
+		new_tmp[0] = '\0';
+	}
+	else
+	{
+		new_tmp = (char *)malloc(sizeof (char) * (n - len + 1));
+		ft_strlcpy(new_tmp, tmp, n - len + 1, len);
+	}
 	free (tmp);
 	tmp = NULL;
-	new_tmp = ft_strjoin(new_tmp, buf, bytes);
 	return (new_tmp);
 }
 
@@ -88,15 +96,15 @@ char	*get_next_line(int fd)
 			free (tmp);
 			return (NULL);
 		}
-		if (ft_strchr(tmp, '\n', bytes) != 0)
-		{	
+		tmp = ft_strjoin(tmp, buf, bytes);
+		if (ft_strchr(tmp, '\n', ft_strlen(tmp)) != 0)
+		{		
 			line = create_string(tmp, '\n', ft_strlen(tmp));
-			tmp = remove_string(tmp, '\n', buf, bytes);
+			tmp = remove_string(tmp);
 			return (line);
 		}
 		else if (bytes == 0 && ft_strlen(tmp) > 0)
 			return (create_nullstring(tmp, line));
-		tmp = ft_strjoin(tmp, buf, bytes);
 	}
 }
 /*
@@ -104,12 +112,20 @@ int main(void)
 {   
     char *line;
 	int fd;
+	char c = 0;
 
 	fd = open("41_with_nl", O_RDONLY);
-	while ((line = get_next_line(fd)) != NULL)
+	
+	 while ((line = get_next_line(fd)) != NULL)
 	{
-		printf("%s", line);
+		//printf("%s", line);
 		free (line);
-	}
+	} 
+
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+
 }
 */
