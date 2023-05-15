@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 11:30:48 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:59:36 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	ft_strlen(const char *s)
 	return (c);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src,
+void	ft_strlcpy(char *dst, const char *src,
 			size_t dstsize, unsigned int start)
 {
 	unsigned int	i;
@@ -38,8 +38,6 @@ size_t	ft_strlcpy(char *dst, const char *src,
 	c = 0;
 	i = start;
 	j = 0;
-	while (src[c] != '\0')
-		++c;
 	if (dstsize != 0)
 	{
 		while (j < (dstsize - 1))
@@ -50,7 +48,6 @@ size_t	ft_strlcpy(char *dst, const char *src,
 		}
 	}
 	dst[j] = '\0';
-	return (c);
 }
 
 size_t	ft_strchr(const char *s, int c, int n)

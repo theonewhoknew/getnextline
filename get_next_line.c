@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 11:40:10 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:59:32 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*create_nullstring(char *tmp, char *line)
 	len = 0;
 	len = ft_strlen(tmp);
 	line = (char *)malloc(sizeof (char) * (len + 1));
+	if (!line)
+		return (NULL);
 	ft_strlcpy(line, tmp, len + 1, 0);
 	ft_memset(tmp, 0, ft_strlen(tmp));
 	return (line);
@@ -94,6 +96,7 @@ char	*get_next_line(int fd)
 			|| bytes == -1 || (bytes == 0 && tmp == NULL))
 		{
 			free (tmp);
+			tmp = NULL;
 			return (NULL);
 		}
 		tmp = ft_strjoin(tmp, buf, bytes);

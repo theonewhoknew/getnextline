@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:08:18 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 11:38:39 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:42:48 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char *tmp, char *buf, size_t n);
 size_t	ft_strchr(const char *s, int c, int n);
-size_t	ft_strlcpy(char *dst, const char *src,
+void	ft_strlcpy(char *dst, const char *src,
 			size_t dstsize, unsigned int start);
 char	*ft_strdup(const char *s1, size_t n, char *tmp);
 char	*remove_string(char *tmp);
