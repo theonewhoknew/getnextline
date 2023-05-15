@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 11:59:32 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:06:10 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,18 @@ char	*remove_string(char *tmp)
 	n = ft_strlen(tmp);
 	if (len == n)
 	{
-		new_tmp = (char *)malloc(sizeof (char) * 1);
-		new_tmp[0] = '\0';
+		free (tmp);
+		tmp = NULL;
+		return (tmp);
 	}
 	else
 	{
 		new_tmp = (char *)malloc(sizeof (char) * (n - len + 1));
+		if (!new_tmp)
+		{
+			free (tmp);
+			return (NULL);
+		}
 		ft_strlcpy(new_tmp, tmp, n - len + 1, len);
 	}
 	free (tmp);
@@ -63,6 +69,8 @@ char	*create_string(char *tmp, char c, size_t n)
 	len = 0;
 	len = ft_strchr(tmp, c, n);
 	string = (char *)malloc(sizeof (char) * (len + 1));
+	if (!string)
+		return (NULL);
 	ft_strlcpy(string, tmp, len + 1, 0);
 	return (string);
 }
@@ -71,6 +79,8 @@ char	*create_nullstring(char *tmp, char *line)
 {
 	size_t	len;
 
+	if (tmp == NULL)
+		return (NULL);
 	len = 0;
 	len = ft_strlen(tmp);
 	line = (char *)malloc(sizeof (char) * (len + 1));
@@ -100,8 +110,10 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		tmp = ft_strjoin(tmp, buf, bytes);
+		if (!tmp)
+			return (NULL);
 		if (ft_strchr(tmp, '\n', ft_strlen(tmp)) != 0)
-		{		
+		{	
 			line = create_string(tmp, '\n', ft_strlen(tmp));
 			tmp = remove_string(tmp);
 			return (line);
@@ -117,18 +129,18 @@ int main(void)
 	int fd;
 	char c = 0;
 
-	fd = open("41_with_nl", O_RDONLY);
+	fd = open("1char.txt", O_RDONLY);
 	
 	 while ((line = get_next_line(fd)) != NULL)
 	{
-		//printf("%s", line);
+		printf("%s", line);
 		free (line);
 	} 
 
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
+	//line = get_next_line(fd);
+	//printf("%s", line);
+	//line = get_next_line(fd);
+	//printf("%s", line);
 
 }
 */
