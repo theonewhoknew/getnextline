@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: theonewhoknew <theonewhoknew@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:42 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 14:10:34 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/15 19:19:19 by theonewhokn      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ void	ft_strlcpy(char *dst, const char *src,
 			size_t dstsize, unsigned int start)
 {
 	unsigned int	i;
-	unsigned int	c;
 	unsigned int	j;
 
-	c = 0;
 	i = start;
 	j = 0;
 	if (dstsize != 0)
