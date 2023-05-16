@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:08:18 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 13:59:55 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:31:09 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	ft_strlcpy(char *dst, const char *src,
 char	*ft_strdup(const char *s1, size_t n, char *tmp);
 char	*remove_string(char *tmp);
 char	*create_string(char *tmp, char c, size_t n);
-char	*create_nullstring(char *tmp, char *line);
+char	*create_nullstring(char **tmp, char *line);
 char	*get_next_line(int fd);
-void	*ft_memset(void *b, int c, size_t n);
+char	*ft_free(char *tmp);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
