@@ -6,7 +6,7 @@
 /*   By: dtome-pe <dtome-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:07:25 by dtome-pe          #+#    #+#             */
-/*   Updated: 2023/05/15 14:06:10 by dtome-pe         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:41:09 by dtome-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,11 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	*ft_memset(void *b, int c, size_t n)
+char	*ft_free(char *tmp)
 {
-	size_t			i;
-	unsigned char	*ptr;
-
-	ptr = b;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = c;
-		i++;
-	}
-	return (b);
+	free (tmp);
+	tmp = NULL;
+	return (NULL);
 }
 
 char	*remove_string(char *tmp)
@@ -50,14 +42,11 @@ char	*remove_string(char *tmp)
 	{
 		new_tmp = (char *)malloc(sizeof (char) * (n - len + 1));
 		if (!new_tmp)
-		{
-			free (tmp);
-			return (NULL);
-		}
+			return (ft_free(tmp));
 		ft_strlcpy(new_tmp, tmp, n - len + 1, len);
+		free (tmp);
+		tmp = NULL;
 	}
-	free (tmp);
-	tmp = NULL;
 	return (new_tmp);
 }
 
@@ -70,24 +59,35 @@ char	*create_string(char *tmp, char c, size_t n)
 	len = ft_strchr(tmp, c, n);
 	string = (char *)malloc(sizeof (char) * (len + 1));
 	if (!string)
+	{	
+		free (string);
+		string = NULL;
 		return (NULL);
+	}
 	ft_strlcpy(string, tmp, len + 1, 0);
 	return (string);
 }
 
-char	*create_nullstring(char *tmp, char *line)
+char	*create_nullstring(char **tmp, char *line)
 {
 	size_t	len;
 
-	if (tmp == NULL)
+	if (!*tmp)
 		return (NULL);
 	len = 0;
-	len = ft_strlen(tmp);
+	len = ft_strlen(*tmp);
 	line = (char *)malloc(sizeof (char) * (len + 1));
 	if (!line)
+	{	
+		free (line);
+		line = NULL;
+		free (*tmp);
+		*tmp = NULL;
 		return (NULL);
-	ft_strlcpy(line, tmp, len + 1, 0);
-	ft_memset(tmp, 0, ft_strlen(tmp));
+	}
+	ft_strlcpy(line, *tmp, len + 1, 0);
+	free (*tmp);
+	*tmp = NULL;
 	return (line);
 }
 
@@ -102,24 +102,19 @@ char	*get_next_line(int fd)
 	while (1)
 	{	
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if ((bytes == 0 && ft_strlen(tmp) == 0)
-			|| bytes == -1 || (bytes == 0 && tmp == NULL))
-		{
-			free (tmp);
-			tmp = NULL;
-			return (NULL);
-		}
+		if ((bytes == 0 && tmp == NULL) || bytes == -1)
+			return (tmp = ft_free(tmp));
 		tmp = ft_strjoin(tmp, buf, bytes);
-		if (!tmp)
-			return (NULL);
 		if (ft_strchr(tmp, '\n', ft_strlen(tmp)) != 0)
-		{	
+		{
 			line = create_string(tmp, '\n', ft_strlen(tmp));
+			if (!line)
+				tmp = ft_free(tmp);
 			tmp = remove_string(tmp);
 			return (line);
 		}
 		else if (bytes == 0 && ft_strlen(tmp) > 0)
-			return (create_nullstring(tmp, line));
+			return (line = create_nullstring(&tmp, line));
 	}
 }
 /*
@@ -131,14 +126,14 @@ int main(void)
 
 	fd = open("1char.txt", O_RDONLY);
 	
-	 while ((line = get_next_line(fd)) != NULL)
+	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("%s", line);
 		free (line);
 	} 
 
-	//line = get_next_line(fd);
-	//printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
 	//line = get_next_line(fd);
 	//printf("%s", line);
 
